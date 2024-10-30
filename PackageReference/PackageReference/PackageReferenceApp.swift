@@ -18,3 +18,13 @@ struct PackageReferenceApp: App {
         }
     }
 }
+
+class MySingleton: ObservableObject {
+    static let shared = MySingleton()
+    
+    @Published var myVar:String = ""
+    
+    private init() {
+        print("MySingleton initialized")
+    }
+}

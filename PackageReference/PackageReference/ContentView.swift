@@ -75,6 +75,10 @@ struct ContentView: View {
     
 }
 
+class AltAlt: ObservableObject {
+    @Published var myVar: Bool = false
+}
+
 //MARK: - States
 class AltSettings: ObservableObject {
     @Published var isPremiumUser: Bool = false
@@ -85,16 +89,27 @@ class UserSettings: ObservableObject {
 }
 
 struct StateSampleView: View {
+    @StateObject var altAlt: AltAlt = AltAlt()
     @EnvironmentObject var uSet: AltSettings
     @StateObject private var settings = UserSettings() // Owned ObservableObject
     
     var body: some View {
         VStack {
+
             Text("Persisted User is \(uSet.isPremiumUser ? "Premium" : "Regular")")
+                .padding()
+
             Text("User is \(settings.isPremiumUser ? "Premium" : "Regular")")
+                .padding()
+                        
+            Text(MySingleton.shared.myVar)
+                .padding()
+            
             Button("Toggle Premium Status") {
                 uSet.isPremiumUser.toggle()
                 settings.isPremiumUser.toggle()
+                let newVal = MySingleton.shared.myVar + "_a"
+                MySingleton.shared.myVar = newVal
             }
         }
     }
